@@ -1,11 +1,11 @@
 # SwiftyEvent
 
 ## Overview
-Add an overview here
+A thread safe, lightweigth event handling framework that automatically store weak references to subscribing code blocks. **SwiftyEvent** requires subscribing classes to keep references to their own handlers thus, it will not create retain cycles using the passed blocks.
 
 ## Build
 
-To build SwiftyEvent from the command line:
+To build **SwiftyEvent** from the command line:
 
 ```bash
 % cd <path-to-clone>
@@ -29,7 +29,7 @@ To run the supplied unit tests for **SwiftyEvent** from the command line:
 
 #### Swift Package Manager
 
-To include SwiftyEvent into a Swift Package Manager package, add it to the `dependencies` attribute defined in your `Package.swift` file. You can select the version using the `majorVersion` and `minor` parameters. For example:
+To include **SwiftyEvent** into a Swift Package Manager package, add it to the `dependencies` attribute defined in your `Package.swift` file. For example:
 ```
 dependencies: [
 	.package(url: "https://github.com/Streebor/SwiftyEvent.git", .upToNextMajor(from: "1.0.0")),
