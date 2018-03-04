@@ -15,10 +15,10 @@ class Event<ArgT> {
 	// This queue is used to do any operations that involve modification of the eventHandles array so that it is thread safe.
 	private let eventQueue = DispatchQueue(label: "io.rave.EventHandlerArrayQueue")
 	
-	internal typealias Handler = (Any, ArgType)->() // Sender, Arguments
+	public typealias Handler = (Any, ArgType)->() // Sender, Arguments
 	typealias ArgType = ArgT
 	
-	internal class Handle {
+	public class Handle {
 		
 		var handler: Handler
 		var handleQueue: DispatchQueue
@@ -75,7 +75,7 @@ class Event<ArgT> {
 	let subscriberClass = SubscriberClass(observableClass)
 	```
 	*/
-	internal func subscribe(queue: DispatchQueue, withHandler handler: @escaping Handler) -> Handle {
+	public func subscribe(queue: DispatchQueue, withHandler handler: @escaping Handler) -> Handle {
 		let handle = Handle(handler, queue)
 		
 		self.eventQueue.async {
@@ -125,11 +125,11 @@ class Event<ArgT> {
 	let subscriberClass = SubscriberClass(observableClass)
 	```
 	*/
-	internal func subscribe(_ handler: @escaping Handler) -> Handle {
+	public func subscribe(_ handler: @escaping Handler) -> Handle {
 		return self.subscribe(queue: DispatchQueue.main, withHandler: handler)
 	}
 	
-	internal func raise(sender: Any, arguments: ArgType, whileTrimmingHandlers trimHandlers: Bool = true) {
+	public func raise(sender: Any, arguments: ArgType, whileTrimmingHandlers trimHandlers: Bool = true) {
 		self.eventQueue.async {
 			if trimHandlers {
 				self.trimHandlers()
@@ -148,7 +148,7 @@ class Event<ArgT> {
 	}
 	
 	/// Removes all handlers that are no longer referenced by the subscriber
-	internal func trim(completion: (()->())? = nil) {
+	public func trim(completion: (()->())? = nil) {
 		self.eventQueue.async {
 			self.trimHandlers()
 			if let completion = completion {
@@ -160,7 +160,7 @@ class Event<ArgT> {
 	}
 	
 	/// Current handler count including handlers that are no longer referenced by the subscriber. If you want to get the number of actual subscribers call the <code>trim()<code> function first.
-	internal var handlerCount: Int {
+	public var handlerCount: Int {
 		var count = 0
 		self.eventQueue.sync {
 			 count = self.eventHandles.count
