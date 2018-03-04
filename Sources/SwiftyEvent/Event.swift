@@ -10,25 +10,27 @@ import Foundation
 
 
 /// Repesents an Event.
-class Event<ArgT> {
+public class Event<ArgT> {
 	
 	// This queue is used to do any operations that involve modification of the eventHandles array so that it is thread safe.
 	private let eventQueue = DispatchQueue(label: "io.rave.EventHandlerArrayQueue")
 	
 	public typealias Handler = (Any, ArgType)->() // Sender, Arguments
-	typealias ArgType = ArgT
+	public typealias ArgType = ArgT
 	
 	public class Handle {
 		
 		var handler: Handler
 		var handleQueue: DispatchQueue
 		
-		init(_ handler: @escaping Handler, _ handleQueue: DispatchQueue) {
+		public init(_ handler: @escaping Handler, _ handleQueue: DispatchQueue) {
 			self.handler = handler
 			self.handleQueue = handleQueue
 		}
 		
 	}
+	
+	public init() { }
 	
 	/// Stores event handles that are used to track all subscribers to this event.
 	private var eventHandles: [WeakReference<Handle>] = []
